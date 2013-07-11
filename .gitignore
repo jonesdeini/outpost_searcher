@@ -16,3 +16,6 @@ tmp
 .yardoc
 _yardoc
 doc/
+
+secret_info.rb
+screenshot.png
