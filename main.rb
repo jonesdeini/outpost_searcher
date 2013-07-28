@@ -2,26 +2,36 @@ require "capybara"
 require "capybara/poltergeist"
 require "capybara/dsl"
 
-Capybara.app_host = "http://tf2outpost.com/find"
+Capybara.app_host = "http://tf2outpost.com"
 Capybara.javascript_driver = :poltergeist
 Capybara.run_server = false
 
 load "secret_info.rb"
 
-module Main
+class Main
 
   include Capybara::DSL
 
-  def self.login
-    session = Capybara::Session.new(:poltergeist)
-    session.visit("/")
-    session.fill_in "username", :with => USER
-    session.fill_in "password", :with => PASS
-    session.click_on "imageLogin"
-    sleep 10
-    session.save_screenshot('screenshot.png')
+  def self.go!(steam_id)
+    @session = Capybara::Session.new(:poltergeist)
+    login
+    search(steam_id)
   end
 
-end
+  def self.login
+    @session.visit("/login")
+    @session.fill_in("username", :with => USER)
+    @session.fill_in("password", :with => PASS)
+    @session.click_on("imageLogin")
+    sleep 4
+    # assert logged in somehow
+    @session.save_screenshot('screenshot.png')
+  end
 
-Main.login
+  def self.search(steam_id)
+    @session.visit("/find")
+    @session.fill_in("steamid", :with => steam_id)
+    @session.click_on("submit")
+    # @session.save_screenshot('screenshot.png')
+  end
+end
