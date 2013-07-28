@@ -23,7 +23,7 @@ class Main
     @session.visit("/login")
     @session.fill_in("username", :with => STEAM_USER)
     @session.fill_in("password", :with => STEAM_PASS)
-    unless @session.page.contains("Error verifying humanity")
+    unless @session.has_content?("Error verifying humanity")
       @session.click_on("imageLogin")
       sleep 4
       # assert logged in somehow
