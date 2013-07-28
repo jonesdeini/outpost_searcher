@@ -14,18 +14,23 @@ class Main
 
   def self.go!(steam_id)
     @session = Capybara::Session.new(:poltergeist)
-    login
-    search(steam_id)
+    if login
+    # search(steam_id)
+    end
   end
 
   def self.login
     @session.visit("/login")
-    @session.fill_in("username", :with => USER)
-    @session.fill_in("password", :with => PASS)
-    @session.click_on("imageLogin")
-    sleep 4
-    # assert logged in somehow
-    @session.save_screenshot('screenshot.png')
+    @session.fill_in("username", :with => STEAM_USER)
+    @session.fill_in("password", :with => STEAM_PASS)
+    unless @session.page.contains("Error verifying humanity")
+      @session.click_on("imageLogin")
+      sleep 4
+      # assert logged in somehow
+      @session.save_screenshot('screenshot.png')
+      return true
+    end
+    false #should probably wait
   end
 
   def self.search(steam_id)
