@@ -23,15 +23,16 @@ class Main
   end
 
   def self.login
+    @logged_in = false
     @session.visit("/login")
-    @session.fill_in("username", :with => STEAM_USER)
-    @session.fill_in("password", :with => STEAM_PASS)
-    unless @session.has_content?("Error verifying humanity")
+    unless @session.has_content?("Error verifying humanity") #unless captcha
+      @session.fill_in("username", :with => STEAM_USER)
+      @session.fill_in("password", :with => STEAM_PASS)
       @session.click_on("imageLogin")
-      sleep 4
+      wait_for_javascript
+      handle_steam_guard
     end
-    return true if handle_steam_guard
-    false #should probably wait
+    @logged_in
   end
 
   def self.handle_steam_guard
@@ -39,9 +40,14 @@ class Main
       auth_code = AuthMail.get_two_step_auth_code
       @session.fill_in("authcode", :with => auth_code)
       @session.execute_script("SubmitAuthCode()")
-      sleep 4
-      @session.save_screenshot('screenshot.png')
-      return true
+      wait_for_javascript
+      # @session.save_screenshot('screenshot.png')
+      @logged_in = true
+    else
+      # not sure what happens when it doesn't hit the steamguard.
+      @session.save_screenshot('no_steamguard.png')
+      puts @session.html
+      @logged_in = true # if this works move it out of the conditional
     end
   end
 
@@ -51,6 +57,11 @@ class Main
     @session.click_on("submit")
     # @session.save_screenshot('screenshot.png')
   end
+
+  def self.wait_for_javascript
+    sleep 4
+  end
+
 end
 
 Main.go!(nil)
