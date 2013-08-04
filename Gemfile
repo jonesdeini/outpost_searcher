@@ -8,3 +8,8 @@ group :development do
   gem "pry"
   gem "shotgun", "~> 0.9.0"
 end
+
+group :test do
+  gem "bogus", "~> 0.1.4"
+  gem "rspec", "~> 2.14.1"
+end

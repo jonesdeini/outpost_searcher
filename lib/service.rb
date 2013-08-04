@@ -1,4 +1,3 @@
-require "./main"
 require "sinatra"
 
 get "/" do

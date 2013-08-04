@@ -8,7 +8,7 @@ Capybara.app_host = "http://tf2outpost.com"
 Capybara.javascript_driver = :poltergeist
 Capybara.run_server = false
 
-require "./auth_mail"
+require "auth_mail"
 load "secret_info.rb"
 
 class Main
