@@ -1,4 +1,5 @@
-require "bogus/rspec"
+require "minitest/autorun"
+require "bogus/minitest"
 
 require "./lib/secret_info"
 

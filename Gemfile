@@ -11,5 +11,5 @@ end
 
 group :test do
   gem "bogus", "~> 0.1.4"
-  gem "rspec", "~> 2.14.1"
+  gem "minitest", "~> 5.0.6"
 end
