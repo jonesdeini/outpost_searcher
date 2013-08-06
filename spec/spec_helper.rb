@@ -1,5 +1,5 @@
 require "minitest/autorun"
-require "bogus/minitest"
+require "bogus/minitest/spec"
 
 require "./lib/secret_info"
 

@@ -1,6 +1,7 @@
 require "gmail"
 
-class AuthMail
+module Crawler
+  module AuthMail
 
   def self.get_two_step_auth_code
     Gmail.connect(GMAIL_USER, GMAIL_PASS) do |gmail|
@@ -19,5 +20,7 @@ class AuthMail
     # this is bad and I feel bad
     steam_email.message.body.to_s.scan(/<h2>(\w{5})<\/h2>/).flatten.first
   end
+  private_class_method :parse_auth_code
 
+  end
 end

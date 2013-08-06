@@ -17,5 +17,5 @@ tmp
 _yardoc
 doc/
 
-lib/secret_info.rb
+lib/crawler/secret_info.rb
 **/screenshot.png
